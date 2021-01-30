@@ -1,5 +1,7 @@
+import { from } from 'rxjs';
 import { FileExpressEvent } from 'src/util/fileexpress-event';
 import { v4 as uuidv4 } from 'uuid';
+import { PlayerDto } from './game-state/player.dto';
 
 export default class RoomState {
   id: string;
@@ -8,20 +10,20 @@ export default class RoomState {
     this.lastmodified = new Date().getTime();
     this.state = {};
   }
-  private _players: string[] = [];
+  private _players: PlayerDto[] = [];
   lastmodified: number;
   state: any;
   onExist: FileExpressEvent<void> = new FileExpressEvent();
 
-  add(playerId: string) {
-    this._players.push(playerId);
+  add(playerDto: PlayerDto) {
+    this._players.push(playerDto);
   }
 
   out(playerId: string) {
     let index = -1;
     this._players.find((value, i) => {
       index = i;
-      return value === playerId;
+      return value.id === playerId;
     });
     if (index > -1) {
       this._players.splice(index, 1);

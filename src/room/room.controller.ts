@@ -9,6 +9,7 @@ import {
 } from '@nestjs/common';
 import { ApiOperation, ApiTags } from '@nestjs/swagger';
 import { GameStateDto } from './game-state/game-sate.dto';
+import { PlayerDto } from './game-state/player.dto';
 import { RoomService } from './room.service';
 
 @Controller('room')
@@ -31,10 +32,10 @@ export class RoomController {
   }
 
   // 玩家进入房间
-  @Post('in/:id/:userId')
+  @Post('in/:id')
   @ApiOperation({ description: '进入某个房间' })
-  addplayer(@Query('userId') userId: string, @Query('id') id: string) {
-    return this.roomService.in(id, userId);
+  addplayer(@Body() player: PlayerDto, @Query('id') id: string) {
+    return this.roomService.in(id, player);
   }
 
   // 更新房间状态
