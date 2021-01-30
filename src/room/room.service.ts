@@ -1,13 +1,14 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
+import { PlayerDto } from './game-state/player.dto';
 import RoomState from './room-state';
 
 @Injectable()
 export class RoomService {
-  private _rooms: { [key: string]: RoomState } = {};
+  private _rooms: Map<string, RoomState> = new Map();
 
   add(name: string) {
     const room = new RoomState(name);
-    this._rooms[room.id] = room;
+    this._rooms.set(room.id, room);
     room.onExist.addListener(() => {
       this._rooms[room.id] = undefined;
     });
@@ -34,14 +35,21 @@ export class RoomService {
   }
 
   private findRoom(id: string) {
-    const room = this._rooms[id];
-    if (!room) {
+    if (!this._rooms.has(id)) {
       throw new NotFoundException();
     }
-    return room;
+    return this._rooms.get(id);
   }
 
   getRooms() {
-    return this._rooms;
+    const roomOut: { keys: string[]; values: RoomState[] } = {
+      keys: [],
+      values: [],
+    };
+    this._rooms.forEach((value, key) => {
+      roomOut.keys.push(key);
+      roomOut.values.push(value);
+    });
+    return roomOut;
   }
 }
