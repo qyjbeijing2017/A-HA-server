@@ -23,9 +23,9 @@ export class RoomService {
     room.update(state);
   }
 
-  in(id: string, userId: string) {
+  in(id: string, playerDto: PlayerDto) {
     const room = this.findRoom(id);
-    room.add(userId);
+    room.add(playerDto);
   }
 
   out(id: string, userId: string) {

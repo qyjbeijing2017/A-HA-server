@@ -1,5 +1,5 @@
-import { Player } from './player.dto';
+import { PlayerDto } from './player.dto';
 
 export class GameStateDto {
-  players: Player[];
+  players: PlayerDto[];
 }
