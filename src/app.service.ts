@@ -1,6 +1,9 @@
-import { BadRequestException, Injectable, NotFoundException } from '@nestjs/common';
+import {
+  BadRequestException,
+  Injectable,
+  NotFoundException,
+} from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
-import { stat } from 'fs';
 import { PlayerDto } from './room/game-state/player.dto';
 
 @Injectable()
@@ -48,5 +51,10 @@ export class AppService {
   update(state: any) {
     this.state = state;
     this.timeStemp = new Date().getTime();
+  }
+
+  clear() {
+    this.state = {};
+    this.players = [];
   }
 }

@@ -1,5 +1,4 @@
 import { Body, Controller, Delete, Get, Post, Put } from '@nestjs/common';
-import { ApiParam } from '@nestjs/swagger';
 import { AppService } from './app.service';
 import { GameStateDto } from './room/game-state/game-sate.dto';
 import { PlayerDto } from './room/game-state/player.dto';
@@ -31,5 +30,10 @@ export class AppController {
   @Delete()
   out(@Body() player: PlayerDto) {
     return this.appService.out(player);
+  }
+
+  @Delete('clear')
+  clear() {
+    return this.appService.clear();
   }
 }
